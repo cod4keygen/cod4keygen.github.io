@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+	<meta charset="UTF-8">
+	<title>CoD4 Keygen</title>
+	<meta name="viewport" content="width=device-width,initial-scale=1">
+	<style>
+		@import url('https://fonts.googleapis.com/css2?family=Fira+Code&display=swap');
+        :root {
+            /* Catppuccin -> Mocha */
+            --ctp-pink: #f5c2e7;
+            --ctp-mauve: #cba6f7;
+            --ctp-text: #cdd6f4;
+            --ctp-base: #1e1e2e;
+			--ctp-crust: #11111b;
+        }
+        html, body {
+            font-family: 'Fira Code', monospace;
+            background-color: var(--ctp-base);
+            color: var(--ctp-text);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            height: 100%
+        }
+
+		h1, h2, #generate {
+			user-select: none;
+		}
+
+		h1 {
+			margin-bottom: 0
+		}
+		h2 {
+			font-size: 0.8rem;
+			margin: 0
+		}
+        a, #generate {
+            text-decoration: none;
+            color: var(--ctp-mauve);
+            transition: all ease-in-out .25s;
+        }
+        a:hover, #generate:hover {
+            color: var(--ctp-pink)
+        }
+
+		body p {
+			display: flex;
+			flex-direction: row;
+		}
+
+		#key {
+			font-size: 1.2rem;
+			font-weight: bold;
+			border: 2px solid var(--ctp-crust);
+			background-color: var(--ctp-crust);
+			padding: 0.25rem 0.75rem;
+			border-radius: 9999px;
+			margin-right: 0.5rem;
+		}
+
+		#generate {
+			font-family: 'Fira Code', monospace;
+			font-size: 1.2rem;
+			cursor: pointer;
+			border-radius: 9999px;
+			border: 2px solid var(--ctp-mauve);
+			padding: 0.25em 0.5em;
+			background: transparent;
+		}
+
+		#generate:hover {
+			border: 2px solid var(--ctp-pink);
+		}
+	</style>
+	<body>
+		<h1>CoD4 Keygen</h1>
+		<h2>By <a href="https://twitter.com/demon0no" target="_blank">Demon0no</a></h2>
+
+		<p>
+			<span id="key"></span>
+			<button id="generate">Generate</button>
+		</p>
+	</body>
+	<script>
+		function calculateChecksum(key) {
+			let checksum = 0;
+
+			for(let i = 0; i < 16; ++i) {
+				checksum ^= key.charCodeAt(i);
+				
+				for(let j = 0; j < 8; ++j) {
+					if(checksum & 1) {
+						checksum ^= 0x14002;
+					}
+					checksum >>= 1;
+				}
+			}
+
+			return checksum;
+		}
+	
+		function getRandomChar() {
+			const characters = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+			return characters.charAt(Math.floor(Math.random() * characters.length));
+		}
+
+		const keyBox = document.getElementById("key");
+
+		function generate(custom = undefined) {
+			let key = "";
+			
+			let base = "";
+			if(custom == undefined) {
+				for(let i = 0; i < 16; ++i) {
+					base += getRandomChar();
+				}
+			}
+			else {
+				base = custom;
+			}
+			
+
+  			const checksum = calculateChecksum(base);
+
+			for(let i = 0; i < 16; i += 4) {
+				key += base.substring(i, i+4) + "-";
+			}
+
+  			key += checksum.toString(16).toUpperCase().padStart(4, "0");
+
+			keyBox.innerHTML = key;
+
+			return key;
+		}
+
+		const generateButton = document.getElementById("generate");
+		generateButton.addEventListener("click", () => { generate() });
+
+		const hash = window.location.hash.substring(1);
+
+		if(hash.length === 16) {
+			generate(hash);
+		}
+		else {
+			generate();
+		}
+		
+	</script>
+</html>
